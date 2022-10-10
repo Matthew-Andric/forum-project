@@ -1,0 +1,152 @@
+{{ define "adminboards" }}
+
+<link rel="stylesheet" href="/static/adminboards.css" type="text/css">
+<link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600,300" rel="stylesheet" type="text/css">
+
+
+{{ $categories := .categories }}
+{{ $subcategories := .subcategories }}
+{{ $permission := .permission }}
+
+<div class="adminpanel">
+    {{ range $cat := $categories }}
+        <div>
+            <div class="category">
+
+                <div>
+                    <h3>{{ $cat.CategoryName }}</h3>
+                    <p>Priority: {{ $cat.Priority }}</p>
+                </div>
+
+                <div class="forms">
+                    <form action="/edit/category/name" method="POST">
+                        <label for="categoryname">New name:</label>
+                        <input type="text" id="categoryname" name="categoryname">
+                        <input type="hidden" id="categoryid" name="categoryid" value="{{ $cat.CategoryId }}">
+                        <button type="submit">Update Name</button>
+                    </form>
+
+                    <form action="/edit/category/priority" method="POST">
+                        <label for="categorypriority">New List Priority:</label>
+                        <input type="text" id="categorypriority" name="categorypriority">
+                        <input type="hidden" id="prioritycategoryid" name="prioritycategoryid" value="{{ $cat.CategoryId }}">
+                        <button type="submit">Update Priority</button>
+                    </form>
+
+                    <form action="/delete/category" method="POST">
+                        <input type="hidden" name="deletecategoryid" value="{{ $cat.CategoryId }}">
+                        <button type="submit">Delete Category</button>
+                    </form>
+                </div>
+                
+            </div>
+
+        <h4>Subcategories</h4>
+
+        {{ range $subcat := $cat.Subcategories }}
+
+            <div class="category">
+
+                <div>
+                    <h4>{{ $subcat.SubCategoryName }}</h4>
+                    <p>Current Permission: {{ index $permission $subcat.PermissionLevel }}</p>
+                    <p>Priority: {{ $subcat.Priority }}</p>
+                </div>
+                
+                <div class="forms">
+
+                    <form action="/edit/subcategory/name" method="POST">
+                        <label for="editsubcatname">New name:</label>
+                        <input type="text" id="editsubcatname" name="editsubcatname">
+                        <input type="hidden" id="editsubcatnameid" name="editsubcatnameid" value="{{ $subcat.SubCategoryId }}"> 
+                        <button type="submit">Update Name</button>
+                    </form>
+                    
+                    <form action="/edit/subcategory/permission" method="POST">
+                        <label for="editsubcatpermissionid">New permission level:</label>
+                        <input type="hidden" name="editsubcatpermissionid" id="editsubcatpermissionid" value="{{ $subcat.SubCategoryId }}">
+                        <select name="permission" id="permission">
+                            <option value="0">User</option>
+                            <option value="1">Moderator</option>
+                            <option value="2">Admin</option>
+                        </select>
+                        <button type="submit">Update</button>
+                    </form>
+
+                    <form action="/edit/subcategory/priority" method="POST">
+                        <input type="hidden" name="subcatpriorityid" id="subcatpriorityid" value="{{ $subcat.SubCategoryId }}">
+                        <label for="subcatpriority">Edit priority:</label>
+                        <input type="text" name="subcatpriority" id="subcatpriority">
+                        <button type="submit">Update priority</button>
+                    </form>
+
+                </div>
+
+            </div>
+
+        {{ end }}
+
+        </div>
+    {{ end }}    
+
+    <div>
+        <h4>Add Category</h4>
+        <form action="/add/category" method="POST">
+            <label for="addcatname">Name:</label>
+            <input type="text" id="addcatname" name="addcatname">
+            <label for="addcatpriority">List priority:</label>
+            <input type="number" id="addcatpriority" name="addcatpriority">
+            <button type="submit">Create Category</button>
+        </form>
+    </div>
+
+    <div>
+        <h4>Add Subcategory</h4>
+        <form action="/add/subcategory" method="POST">
+            <label for="addsubcatname">Name:</label>
+            <input type="text" id="addsubcatname" name="addsubcatname">
+            <label for="addsubcatparent">Parent Category:</label>
+            <select name="addsubcatparent" id="addsubcatparent">
+                {{ range $cat := $categories }}
+                    <option value="{{ $cat.CategoryId }}">{{ $cat.CategoryName }}</option>
+                {{ end }}
+            </select> <br>
+            <label for="addsubcatpermission">Permission Level:</label>
+            <select name="addsubcatpermission" id="addsubcatpermission">
+                <option value="0">User</option>
+                <option value="1">Moderator</option>
+                <option value="2">Admin</option>
+            </select> <br>
+            <label for="addsubcatpriority">List priority:</label>
+            <input type="number" name="addsubcatpriority" id="addsubcatpriority">
+            <button type="submit">Create Subcategory</button>
+        </form>
+    </div>    
+
+    <div>
+
+        <div class="forms">
+            <h4>Edit Subcategory Location</h4>
+            <form action="/edit/subcategory/category" method="POST">
+                <label for="subcategory">Subcategory:</label>
+                <select name="subcategory" id="subcategory">
+                    {{ range $cat := $categories }}
+                        {{ range $subcat := $cat.Subcategories }}
+                            <option value="{{ $subcat.SubCategoryId }}">{{ $subcat.SubCategoryName }}</option>
+                        {{ end }}
+                    {{ end }}
+                </select><br>
+                <label for="category">New parent category:</label>
+                <select name="category" id="category">
+                    {{ range $cat := $categories }}
+                        <option value="{{ $cat.CategoryId }}">{{ $cat.CategoryName }}</option>
+                    {{ end }}
+                </select>
+                <button type="submit">Set Location</button>
+            </form>
+        </div>
+        
+    </div>
+</div>
+
+{{ end }}

@@ -1,0 +1,11 @@
+#Postgres db config
+database:
+    host: "localhost"
+    port: 5432
+    user: "user"
+    password: "password"
+    dbname: "dbname"
+#32 byte length keys set for cookie hashing and encryption
+secret:
+    hash: "FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF" 
+    block: "FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF"

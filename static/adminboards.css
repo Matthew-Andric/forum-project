@@ -1,0 +1,60 @@
+body {
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+form {
+    width: 12em;
+}
+
+select {
+    margin: 0.5em;
+}
+
+input[type=text] {
+    width: 100%;
+    border: none;
+    border-bottom: 0.1em solid black;
+    padding: 0.5em 0.5em;
+    margin: 0.5em 0;
+}
+
+input[type=number] {
+    width: 100%;
+    border: none;
+    border-bottom: 0.1em solid black;
+    padding: 0.5em 0.5em;
+    margin: 0.5em 0;
+}
+
+input[type=text]:focus {
+    outline: none;
+}
+
+input[type=number]:focus {
+    outline: none;
+}
+
+button[type=submit] {
+    margin: 0.5em;
+    float: right;
+}
+
+.category {
+    display: flex;
+    flex-direction: row;
+}
+
+.forms {
+    display: flex;
+    flex-direction: column;
+    padding: 0.5em;
+}
+
+.adminpanel {
+    display: flex;
+    margin: auto;
+    width: 50%;
+    align-items: center;
+    justify-items: center;
+    flex-direction: column;
+}

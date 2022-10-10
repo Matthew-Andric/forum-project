@@ -1,0 +1,36 @@
+.boardheader {
+    display: flex;
+    flex-direction: row;
+    width: 80%;
+    margin: auto;
+    background-color: rgb(245, 161, 4);
+    padding: 0.3em;
+}
+
+.thread {
+    display: flex;
+    flex-direction: column;
+    width: 80%;
+    margin: auto;
+    padding: 0.3em;
+    padding-left: 0.6em;
+}
+
+.threaddetails {
+    display: flex;
+    padding: 0.2em;
+    border-bottom: 3px solid rgb(245, 161, 4)
+}
+
+.date {
+    padding-left: 0.4em;
+}
+
+.thread a {
+    font-size: larger;
+    
+}
+
+.thread .threaddetails a {
+    font-size: medium;
+}
