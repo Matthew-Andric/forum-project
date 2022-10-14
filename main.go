@@ -1,60 +1,58 @@
 package main
 
 import (
-	"database/sql"
+	"flag"
 	"fmt"
 
+	"forum/database"
+	handler "forum/handler"
+
+	"github.com/gin-contrib/secure"
 	"github.com/gin-gonic/gin"
 	_ "github.com/lib/pq"
-	"golang.org/x/crypto/bcrypt"
 )
 
-var db *sql.DB
-
 func main() {
-	db = startDB()
-	defer db.Close()
+	devMode := flag.Bool("dev", true, "Enables developer mode, this will disable security settings for easy use during testing")
+	database.StartDB()
 
 	r := gin.Default()
+	conf := secure.DefaultConfig()
+	if !*devMode {
+		r.Use(secure.New(conf))
+	}
 	r.LoadHTMLGlob("./templates/*")
 	r.Static("/static", "./static/")
 
-	r.GET("/", getIndexHandler())
-	r.GET("/board/:id", getBoardHandler())
-	r.GET("/users/:id", getUserHandler())
-	r.GET("/thread/:id", getThreadHandler())
-	r.GET("/login", getLoginHandler())
-	r.GET("/logout", getLogoutHandler())
-	r.GET("/register", getRegistrationHandler())
-	r.GET("/admin", getAdminPanelHandler())
-	r.GET("/admin/boards", getAdminBoardsHandler())
+	r.GET("/", handler.GetIndexHandler())
+	r.GET("/board/:id", handler.GetBoardHandler())
+	r.GET("/users/:id", handler.GetUserHandler())
+	r.GET("/thread/:id", handler.GetThreadHandler())
+	r.GET("/login", handler.GetLoginHandler())
+	r.GET("/logout", handler.GetLogoutHandler())
+	r.GET("/register", handler.GetRegistrationHandler())
+	r.GET("/admin", handler.GetAdminPanelHandler())
+	r.GET("/admin/boards", handler.GetAdminBoardsHandler())
 	//r.GET("/admin/users", getAdminUsersPanel())
 
-	r.POST("/login", postLoginHandler())
-	r.POST("/register", postRegistrationHandler())
-	r.POST("/thread/:id", postReplyHandler())
-	r.POST("/delete/post/:id", deleteReplyHandler())
-	r.POST("/edit/post/:id", editReplyHandler())
-	r.POST("/board/:id", postThreadHandler())
-	r.POST("/edit/thread/:id", editThreadHandler())
-	r.POST("/edit/category/name", editCategoryNameHandler())
-	r.POST("/edit/category/priority", editCategoryPriorityHandler())
-	r.POST("/edit/subcategory/name", editSubCategoryNameHandler())
-	r.POST("/edit/subcategory/category", editSubCategoryLocationHandler())
-	r.POST("/edit/subcategory/permission", editSubCategoryPermissionHandler())
-	r.POST("/edit/subcategory/priority", editSubCategoryPriorityHandler())
-	r.POST("/delete/category", deleteCategoryHandler())
-	r.POST("/add/category", addCategoryHandler())
-	r.POST("/add/subcategory", addSubCategoryHandler())
+	r.POST("/login", handler.PostLoginHandler())
+	r.POST("/register", handler.PostRegistrationHandler())
+	r.POST("/thread/:id", handler.PostReplyHandler())
+	r.POST("/delete/post/:id", handler.DeleteReplyHandler())
+	r.POST("/edit/post/:id", handler.EditReplyHandler())
+	r.POST("/board/:id", handler.PostThreadHandler())
+	r.POST("/edit/thread/:id", handler.EditThreadHandler())
+	r.POST("/edit/category/name", handler.EditCategoryNameHandler())
+	r.POST("/edit/category/priority", handler.EditCategoryPriorityHandler())
+	r.POST("/edit/subcategory/name", handler.EditSubCategoryNameHandler())
+	r.POST("/edit/subcategory/category", handler.EditSubCategoryLocationHandler())
+	r.POST("/edit/subcategory/permission", handler.EditSubCategoryPermissionHandler())
+	r.POST("/edit/subcategory/priority", handler.EditSubCategoryPriorityHandler())
+	r.POST("/delete/category", handler.DeleteCategoryHandler())
+	r.POST("/add/category", handler.AddCategoryHandler())
+	r.POST("/add/subcategory", handler.AddSubCategoryHandler())
 
 	r.Run()
-}
-
-func saltPassword(pw string) string {
-	hash, err := bcrypt.GenerateFromPassword([]byte(pw), bcrypt.MinCost)
-	if err != nil {
-		fmt.Println(err)
-	}
-
-	return string(hash)
+	fmt.Println("eeegegegge")
+	database.CloseDB()
 }
