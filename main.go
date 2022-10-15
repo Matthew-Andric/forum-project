@@ -34,7 +34,6 @@ func main() {
 	r.GET("/admin", handler.GetAdminPanelHandler())
 	r.GET("/admin/boards", handler.GetAdminBoardsHandler())
 	r.GET("/usersettings", handler.GetUserSettings())
-	//r.GET("/admin/users", getAdminUsersPanel())
 
 	r.POST("/login", handler.PostLoginHandler())
 	r.POST("/register", handler.PostRegistrationHandler())
@@ -53,6 +52,7 @@ func main() {
 	r.POST("/add/category", handler.AddCategoryHandler())
 	r.POST("/add/subcategory", handler.AddSubCategoryHandler())
 	r.POST("/update/profilepicture", handler.UploadImageHandler())
+	r.POST("/update/password", handler.UpdatePasswordHandler())
 
 	r.Run()
 	database.CloseDB()

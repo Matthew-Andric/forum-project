@@ -1,6 +1,9 @@
 package database
 
-import "fmt"
+import (
+	"fmt"
+	"forum/util"
+)
 
 func EditCategoryName(id, name string) bool {
 	sqlStatement := `UPDATE categories SET name=$1 WHERE categoryid=$2;`
@@ -169,6 +172,19 @@ func UpdateProfilePicture(user *User, dst string) bool {
 	sqlStatement := `UPDATE users SET profilepicture=$1 WHERE userid=$2;`
 
 	_, err := db.Exec(sqlStatement, dst, user.Userid)
+	if err != nil {
+		fmt.Println(err)
+		return false
+	}
+
+	return true
+}
+
+func UpdatePassword(user *User, password string) bool {
+	sqlStatement := `UPDATE users SET password=$1 WHERE userid=$2;`
+	encPassword := util.SaltPassword(password)
+
+	_, err := db.Exec(sqlStatement, encPassword, user.Userid)
 	if err != nil {
 		fmt.Println(err)
 		return false

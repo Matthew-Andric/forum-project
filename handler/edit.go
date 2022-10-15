@@ -167,3 +167,38 @@ func EditSubCategoryPermissionHandler() gin.HandlerFunc {
 
 	return gin.HandlerFunc(fn)
 }
+
+func UpdatePasswordHandler() gin.HandlerFunc {
+	fn := func(c *gin.Context) {
+		user := database.ValidateSession(c)
+		if user == nil {
+			c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"message": "not signed in"})
+			return
+		}
+
+		currentPassword := c.PostForm("currentpassword")
+		_, ok := database.ValidateLogIn(user.Username, currentPassword)
+		if !ok {
+			location := url.URL{Path: "/usersettings"}
+			c.Redirect(http.StatusFound, location.RequestURI())
+			return
+		}
+
+		newPassword := c.PostForm("newpassword")
+		if newPassword != c.PostForm("newpasswordconfirm") {
+			location := url.URL{Path: "/usersettings"}
+			c.Redirect(http.StatusFound, location.RequestURI())
+			return
+		}
+
+		if !database.UpdatePassword(user, newPassword) {
+			c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"message": "database error"})
+			return
+		}
+
+		location := url.URL{Path: "/usersettings"}
+		c.Redirect(http.StatusFound, location.RequestURI())
+	}
+
+	return gin.HandlerFunc(fn)
+}
