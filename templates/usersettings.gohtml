@@ -1,35 +1,37 @@
 {{ define "usersettings" }}
 
-{{ $user := .user }}
+    {{ $user := .user }}
 
-<head>
-    <style>
-        img {
-            max-width: 7em;
-        }
-    </style>
-</head>
+    {{ template "navbar" . }}
+
+    <head>
+        <style>
+            img {
+                max-width: 7em;
+            }
+        </style>
+    </head>
 
 
-<div>
-    <div>{{ $user.Username }} {{ $user.CreationDate }}</div>
-    {{ $user.ProfilePicture }}
-    <img src="{{ $user.ProfilePicture }}" />
-</div>
+    <div>
+        <div>{{ $user.Username }} {{ $user.CreationDate }}</div>
+        {{ $user.ProfilePicture }}
+        <img src="{{ $user.ProfilePicture }}" />
+    </div>
 
-<form method="post" action="/update/profilepicture" enctype="multipart/form-data">
-    <input type="file" id="pfp" name="pfp" accept="image/png, image/jpeg">
-    <button type="submit">Upload</button>
-</form>
+    <form method="post" action="/update/profilepicture" enctype="multipart/form-data">
+        <input type="file" id="pfp" name="pfp" accept="image/png, image/jpeg">
+        <button type="submit">Upload</button>
+    </form>
 
-<form method="post" action="/update/password">
-    <label for="currentpassword">Current Password:</label>
-    <input type="password" id="currentpassword" name="currentpassword">
-    <label for="newpassword">New Password:</label>
-    <input type="password" id="newpassword" name="newpassword">
-    <label for="newpasswordconfirm">Confirm New Password:</label>
-    <input type="password" id="newpasswordconfirm" name="newpasswordconfirm">
-    <button type="submit">Update Password</button>
-</form>
+    <form method="post" action="/update/password">
+        <label for="currentpassword">Current Password:</label>
+        <input type="password" id="currentpassword" name="currentpassword">
+        <label for="newpassword">New Password:</label>
+        <input type="password" id="newpassword" name="newpassword">
+        <label for="newpasswordconfirm">Confirm New Password:</label>
+        <input type="password" id="newpasswordconfirm" name="newpasswordconfirm">
+        <button type="submit">Update Password</button>
+    </form>
 
 {{ end }}

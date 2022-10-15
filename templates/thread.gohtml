@@ -6,11 +6,12 @@
 
     {{ template "navbar" . }}
     
-    <header>
+    <head>
         <script src="/static/thread.js"></script>
         <link rel="stylesheet" href="/static/index.css">
         <link rel="stylesheet" href="/static/board.css">
-    </header>
+        <title>Forum - {{ $thread.ThreadName }}</title>
+    </head>
 
     <div class="spacer"></div>
 
@@ -65,7 +66,5 @@
             {{ template "replyform" }}
         {{ end }}
     </div>
-
-    {{ template "footer" }}
 
 {{ end }} 

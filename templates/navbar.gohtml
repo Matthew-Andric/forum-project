@@ -1,13 +1,13 @@
 {{ define "navbar" }}
 
-<div class="navbar">
-    <div class="title">Forum</div>
+    <div class="navbar">
+        <div class="title">Forum</div>
 
-    {{ if .user }}
-        {{ template "userinfo" .user }}
-    {{ else }}
-        {{ template "loginregister" }}
-    {{ end }}
-</div>
+        {{ if .user }}
+            {{ template "userinfo" .user }}
+        {{ else }}
+            {{ template "loginregister" }}
+        {{ end }}
+    </div>
 
 {{ end }}

@@ -1,11 +1,11 @@
 {{ define "userinfo" }}
 
-{{ $user := . }}
+    {{ $user := . }}
 
-<div class="uinfo">
-    <p class="navlink">{{$user.Username}}</p>
-    <a class="navlink" href="/usersettings">Profile & Settings</a>
-    <a class="navlink" href="/logout">Log Out</a>
-</div>
+    <div class="uinfo">
+        <p class="navlink">{{$user.Username}}</p>
+        <a class="navlink" href="/usersettings">Profile & Settings</a>
+        <a class="navlink" href="/logout">Log Out</a>
+    </div>
 
 {{ end }}

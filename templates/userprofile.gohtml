@@ -1,24 +1,22 @@
 {{ define "userprofile" }}
 
-{{ $user := .user }}
-{{ $posts := .posts }}
+    {{ $user := .user }}
+    {{ $posts := .posts }}
 
-{{ template "header" }}
+    {{ template "navbar" . }}
 
-<div>
-    <h4>{{ $user.Username }}</h4>
-    <p>Account Created: {{ $user.CreationDate.Format "Jan 02 2006" }} </p> 
-</div>
+    <div>
+        <h4>{{ $user.Username }}</h4>
+        <p>Account Created: {{ $user.CreationDate.Format "Jan 02 2006" }} </p> 
+    </div>
 
-</br>
+    </br>
 
-<h4>Posts</h4>
-{{ range $post := $posts }}
-    <a href="/thread/{{ $post.Threadid }}">{{ $post.ThreadName }} </a>
-    <p>{{ $post.PostText }}</p>
-    <p>Posted: {{ $post.PostDate.Format "Jan 02 2006 15:04:05" }} </p> </br> </br>
-{{ end }}
-
-{{ template "footer" }}
+    <h4>Posts</h4>
+    {{ range $post := $posts }}
+        <a href="/thread/{{ $post.Threadid }}">{{ $post.ThreadName }} </a>
+        <p>{{ $post.PostText }}</p>
+        <p>Posted: {{ $post.PostDate.Format "Jan 02 2006 15:04:05" }} </p> </br> </br>
+    {{ end }}
 
 {{ end }}

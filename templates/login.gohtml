@@ -1,20 +1,18 @@
 {{ define "login" }}
 
-{{ template "header" . }}
+    {{ template "navbar" . }}
 
-{{ if .result }}
-    <div>{{ .result }}</div>
-{{ end }}
+    {{ if .result }}
+        <div>{{ .result }}</div>
+    {{ end }}
 
-<h3>Log In</h3>
-<form action="/login" method="POST">
-    <label for="username">Username: </label>
-    <input type="text" name="username" id="username" /> </br>
-    <label for="password">Password:  </label>
-    <input type="password" name="password" id="password" /> </br>
-    <button type="submit">Submit</button>
-</form>
-
-{{ template "footer" }}
+    <h3>Log In</h3>
+    <form action="/login" method="POST">
+        <label for="username">Username: </label>
+        <input type="text" name="username" id="username" /> </br>
+        <label for="password">Password:  </label>
+        <input type="password" name="password" id="password" /> </br>
+        <button type="submit">Submit</button>
+    </form>
 
 {{ end }}
