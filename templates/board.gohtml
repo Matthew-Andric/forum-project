@@ -1,53 +1,51 @@
 {{ define "board" }}
 
-<head>
-    <link rel="stylesheet" href="/static/index.css">
-    <link rel="stylesheet" href="/static/board.css">
-    <link rel="stylesheet" href="/static/adminboards.css">
-</head>
+    <head>
+        <link rel="stylesheet" href="/static/index.css">
+        <link rel="stylesheet" href="/static/board.css">
+        <link rel="stylesheet" href="/static/adminboards.css">
+    </head>
 
-{{ $subcat := .subcat }}
-{{ $threads := .threads }}
-{{ $user := .user }}
+    {{ $subcat := .subcat }}
+    {{ $threads := .threads }}
+    {{ $user := .user }}
 
-{{ template "navbar" . }}
+    {{ template "navbar" . }}
 
-<head>
-    <script src="/static/board.js"></script>
-    <title>Forum - {{ $subcat.SubCategoryName }}</title>
-</head>
+    <head>
+        <script src="/static/board.js"></script>
+        <title>Forum - {{ $subcat.SubCategoryName }}</title>
+    </head>
 
-<div class="spacer"></div>
+    <div class="spacer"></div>
 
-<div class="boardheader">
-    <div class="title">{{ $subcat.SubCategoryName }}</div>
+    <div class="boardheader">
+        <div class="title">{{ $subcat.SubCategoryName }}</div>
 
-    {{ if $user }}
-        <button onclick="toggleThreadForm()">Toggle Thread Form</button>
-        <div id="form" hidden>
-            <form id="threadform" class="forms" action="/board/{{ $subcat.SubCategoryId }}" method="POST">
-                <label for="threadtitle">Title</label>
-                <input type="text" name="threadtitle" id="threadtitle">
-                <textarea name="threadtext" id="threadtext"></textarea>
-                <button type="submit">Post</button>
-            </form>
-        </div>
-        
-    {{ end }}
-
-</div>
-
-<div>
-    {{ range $thread := $threads }}
-        <div class="thread">
-            <a href="/thread/{{$thread.Threadid}}">{{ $thread.ThreadName }}</a>
-            <div class="threaddetails">
-                <div><a href="/users/{{$thread.Userid}}">{{ $thread.Username }}</a></div> <div class="date">  Created: {{ $thread.CreateDate.Format "Jan 02 2006 15:04:05" }}  Last Updated: {{ $thread.LastUpdated.Format "Jan 02 2006 15:04:05" }} </div> <br>
+        {{ if $user }}
+            <button onclick="toggleThreadForm()">Toggle Thread Form</button>
+            <div id="form" hidden>
+                <form id="threadform" class="forms" action="/board/{{ $subcat.SubCategoryId }}" method="POST">
+                    <label for="threadtitle">Title</label>
+                    <input type="text" name="threadtitle" id="threadtitle">
+                    <textarea name="threadtext" id="threadtext"></textarea>
+                    <button type="submit">Post</button>
+                </form>
             </div>
-        </div>
-    {{ end }}
-</div>
+            
+        {{ end }}
 
-{{ template "footer" }}
+    </div>
+
+    <div>
+        {{ range $thread := $threads }}
+            <div class="thread">
+                <a href="/thread/{{$thread.Threadid}}">{{ $thread.ThreadName }}</a>
+                <div class="threaddetails">
+                    <div><a href="/users/{{$thread.Userid}}">{{ $thread.Username }}</a></div> <div class="date">  Created: {{ $thread.CreateDate.Format "Jan 02 2006 15:04:05" }}  Last Updated: {{ $thread.LastUpdated.Format "Jan 02 2006 15:04:05" }} </div> <br>
+                </div>
+            </div>
+        {{ end }}
+    </div>
 
 {{ end }}

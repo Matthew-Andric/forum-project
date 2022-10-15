@@ -1,7 +1,12 @@
 {{ define "navbar" }}
 
+    <head>
+        <link rel="stylesheet" href="/static/index.css">
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600,300" rel="stylesheet" type="text/css">
+    </head>
+
     <div class="navbar">
-        <div class="title">Forum</div>
+        <div class="title"><a href="/">Forum</a></div>
 
         {{ if .user }}
             {{ template "userinfo" .user }}

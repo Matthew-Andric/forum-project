@@ -1,32 +1,28 @@
 {{ define "index" }}
 
-<head>
-    <title>Forum</title>
-    <link rel="stylesheet" href="/static/index.css">
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600,300" rel="stylesheet" type="text/css">
-</head>
+    <head>
+        <title>Forum</title>
+    </head>
 
-{{ template "navbar" . }}
+    {{ template "navbar" . }}
 
-{{ $categories := .categories }}
+    {{ $categories := .categories }}
 
-<div>
-    {{ if .result }}
-        <div>{{ .result }}</div>
-    {{ end }}
-    {{ range $cat := $categories}}
-        <div class="spacer"></div>
-        <div class="category">
-            <h2 class="categoryheader">{{ $cat.CategoryName }}</h2>
-            <div class="subcategories">
-            {{ range $subcat := $cat.Subcategories }}
-                <a class="subcategory" href="/board/{{$subcat.SubCategoryId}}">{{ $subcat.SubCategoryName }}</a> </br>
-            {{ end }}
+    <div>
+        {{ if .result }}
+            <div>{{ .result }}</div>
+        {{ end }}
+        {{ range $cat := $categories}}
+            <div class="spacer"></div>
+            <div class="category">
+                <h2 class="categoryheader">{{ $cat.CategoryName }}</h2>
+                <div class="subcategories">
+                {{ range $subcat := $cat.Subcategories }}
+                    <a class="subcategory" href="/board/{{$subcat.SubCategoryId}}">{{ $subcat.SubCategoryName }}</a> </br>
+                {{ end }}
+                </div>
             </div>
-        </div>
-    {{ end }}
-</div>
-
-{{ template "footer" }}
+        {{ end }}
+    </div>
 
 {{ end }}
