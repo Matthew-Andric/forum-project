@@ -137,3 +137,18 @@ func GetAdminBoardsHandler() gin.HandlerFunc {
 
 	return gin.HandlerFunc(fn)
 }
+
+func GetUserSettings() gin.HandlerFunc {
+	fn := func(c *gin.Context) {
+		user := database.ValidateSession(c)
+		if user == nil {
+			location := url.URL{Path: "/"}
+			c.Redirect(http.StatusFound, location.RequestURI())
+			return
+		}
+
+		c.HTML(http.StatusFound, "usersettings", map[string]interface{}{"user": user})
+	}
+
+	return gin.HandlerFunc(fn)
+}

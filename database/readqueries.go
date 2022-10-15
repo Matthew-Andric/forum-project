@@ -3,7 +3,6 @@ package database
 import (
 	"database/sql"
 	"fmt"
-	"strconv"
 	"time"
 )
 
@@ -98,24 +97,13 @@ func GetThreadsSummary(id string) []ThreadSummary {
 
 func GetUserDetails(id string) User {
 	var user User
-	id_int, err := strconv.Atoi(id)
-	if err != nil {
-		fmt.Println("User ID invalid")
-		return User{}
-	}
-
-	sqlStatement := `SELECT username, creationdate, permissionlevel FROM users WHERE userid=$1;`
+	sqlStatement := `SELECT username, creationdate, permissionlevel, profilepicture FROM users WHERE userid=$1;`
 
 	row := db.QueryRow(sqlStatement, id)
-	var username string
-	var creationdate time.Time
-	var permissionlevel int
-	switch err := row.Scan(&username, &creationdate, &permissionlevel); err {
+	switch err := row.Scan(&user.Username, &user.CreationDate, &user.PermissionLevel, &user.ProfilePicture); err {
 	case sql.ErrNoRows:
 		fmt.Println("User not found")
 	case nil:
-		fmt.Printf("User %q found", username)
-		user = User{id_int, username, creationdate, permissionlevel}
 	default:
 		panic(err)
 	}

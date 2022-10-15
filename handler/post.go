@@ -6,9 +6,12 @@ import (
 	"forum/util"
 	"net/http"
 	"net/url"
+	"os"
+	"path/filepath"
 	"time"
 
 	"github.com/gin-gonic/gin"
+	"github.com/google/uuid"
 )
 
 const (
@@ -207,7 +210,9 @@ func AddSubCategoryHandler() gin.HandlerFunc {
 	fn := func(c *gin.Context) {
 		user := database.ValidateSession(c)
 		if user == nil || user.PermissionLevel != ADMIN {
-			c.HTML(http.StatusBadRequest, "404", nil)
+			location := url.URL{Path: "/"}
+			c.Redirect(http.StatusFound, location.RequestURI())
+			return
 		} else {
 			name, catId := c.PostForm("addsubcatname"), c.PostForm("addsubcatparent")
 			permission, priority := c.PostForm("addsubcatpermission"), c.PostForm("addsubcatpriority")
@@ -221,6 +226,55 @@ func AddSubCategoryHandler() gin.HandlerFunc {
 			location := url.URL{Path: "/admin/boards"}
 			c.Redirect(http.StatusFound, location.RequestURI())
 		}
+	}
+
+	return gin.HandlerFunc(fn)
+}
+
+func UploadImageHandler() gin.HandlerFunc {
+	fn := func(c *gin.Context) {
+		user := database.ValidateSession(c)
+		if user == nil {
+			location := url.URL{Path: "/"}
+			c.Redirect(http.StatusFound, location.RequestURI())
+			return
+		}
+
+		file, err := c.FormFile("pfp")
+		if err != nil {
+			c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"message": "No file uploaded"})
+			return
+		}
+
+		filePath := "static/media/profile/" + uuid.New().String() + filepath.Ext(file.Filename)
+
+		if err := c.SaveUploadedFile(file, filePath); err != nil {
+			c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"message": "Error saving file"})
+			return
+		}
+
+		fileType, err := util.ValidateFileType(filePath)
+		if err != nil {
+			c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"message": "Error validating file type"})
+			os.Remove(filePath)
+			return
+		}
+
+		fmt.Println("file type:", fileType)
+		if fileType != "image/jpeg" && fileType != "image/png" {
+			c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"message": "Invalid file type, must be an image"})
+			os.Remove(filePath)
+			return
+		}
+
+		if !database.UpdateProfilePicture(user, filePath) {
+			c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"message": "database error"})
+			os.Remove(filePath)
+			return
+		}
+
+		location := url.URL{Path: "/"}
+		c.Redirect(http.StatusFound, location.RequestURI())
 	}
 
 	return gin.HandlerFunc(fn)

@@ -50,10 +50,10 @@ func ValidateSession(c *gin.Context) *User {
 		return nil
 	}
 
-	sqlStatement := `SELECT users.userid, username, creationdate, permissionlevel FROM users JOIN sessions ON users.userid = sessions.userid WHERE session=$1;`
+	sqlStatement := `SELECT users.userid, username, creationdate, permissionlevel, profilepicture FROM users JOIN sessions ON users.userid = sessions.userid WHERE session=$1;`
 
 	row := db.QueryRow(sqlStatement, cookie)
-	switch err := row.Scan(&user.Userid, &user.Username, &user.CreationDate, &user.PermissionLevel); err {
+	switch err := row.Scan(&user.Userid, &user.Username, &user.CreationDate, &user.PermissionLevel, &user.ProfilePicture); err {
 	case sql.ErrNoRows:
 		fmt.Println("session not found")
 		return nil

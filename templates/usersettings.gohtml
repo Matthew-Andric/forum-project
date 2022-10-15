@@ -1,5 +1,16 @@
 {{ define "usersettings" }}
 
+{{ $user := .user }}
 
+<div>
+    <div>{{ $user.Username }} {{ $user.CreationDate }}</div>
+    {{ $user.ProfilePicture }}
+    <img src="{{ $user.ProfilePicture }}" />
+</div>
+
+<form method="post" action="/update/profilepicture" enctype="multipart/form-data">
+    <input type="file" id="pfp" name="pfp" accept="image/png, image/jpeg">
+    <button type="submit">Upload</button>
+</form>
 
 {{ end }}

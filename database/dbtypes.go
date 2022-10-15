@@ -60,6 +60,7 @@ type User struct {
 	Username        string
 	CreationDate    time.Time
 	PermissionLevel int
+	ProfilePicture  string
 }
 
 type ProfilePost struct {

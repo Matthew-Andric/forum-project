@@ -2,7 +2,6 @@ package main
 
 import (
 	"flag"
-	"fmt"
 
 	"forum/database"
 	handler "forum/handler"
@@ -23,6 +22,7 @@ func main() {
 	}
 	r.LoadHTMLGlob("./templates/*")
 	r.Static("/static", "./static/")
+	r.MaxMultipartMemory = 5 << 20
 
 	r.GET("/", handler.GetIndexHandler())
 	r.GET("/board/:id", handler.GetBoardHandler())
@@ -33,6 +33,7 @@ func main() {
 	r.GET("/register", handler.GetRegistrationHandler())
 	r.GET("/admin", handler.GetAdminPanelHandler())
 	r.GET("/admin/boards", handler.GetAdminBoardsHandler())
+	r.GET("/usersettings", handler.GetUserSettings())
 	//r.GET("/admin/users", getAdminUsersPanel())
 
 	r.POST("/login", handler.PostLoginHandler())
@@ -51,8 +52,8 @@ func main() {
 	r.POST("/delete/category", handler.DeleteCategoryHandler())
 	r.POST("/add/category", handler.AddCategoryHandler())
 	r.POST("/add/subcategory", handler.AddSubCategoryHandler())
+	r.POST("/update/profilepicture", handler.UploadImageHandler())
 
 	r.Run()
-	fmt.Println("eeegegegge")
 	database.CloseDB()
 }

@@ -164,3 +164,15 @@ func EditSubCategoryPriority(subCatId, priority string) bool {
 
 	return true
 }
+
+func UpdateProfilePicture(user *User, dst string) bool {
+	sqlStatement := `UPDATE users SET profilepicture=$1 WHERE userid=$2;`
+
+	_, err := db.Exec(sqlStatement, dst, user.Userid)
+	if err != nil {
+		fmt.Println(err)
+		return false
+	}
+
+	return true
+}
