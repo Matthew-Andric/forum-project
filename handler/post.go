@@ -273,6 +273,7 @@ func UploadImageHandler() gin.HandlerFunc {
 			return
 		}
 
+		os.Remove(user.ProfilePicture)
 		location := url.URL{Path: "/"}
 		c.Redirect(http.StatusFound, location.RequestURI())
 	}
