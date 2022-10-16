@@ -5,6 +5,9 @@
     <div class="uinfo">
         <a class="navlink" href="/users/{{ $user.Userid }}">{{$user.Username}}</a>
         <a class="navlink" href="/usersettings">Profile & Settings</a>
+        {{ if eq $user.PermissionLevel 2 }}
+            <a class="navlink" href="/admin">Admin Panel</a>
+        {{ end }}
         <a class="navlink" href="/logout">Log Out</a>
     </div>
 
