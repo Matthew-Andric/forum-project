@@ -10,7 +10,7 @@
     {{ template "navbar" . }}
 
     <div class="profile">
-        <img src="{{ $user.ProfilePicture}}" />
+        <img src="{{ $user.ProfilePicture }}" />
         <div class="sprofile">
             <h4>{{ $user.Username }}</h4>
             <div>Account Created: {{ $user.CreationDate.Format "Jan 02 2006" }} </div> 
@@ -28,7 +28,6 @@
                         Posted in: <a href="/thread/{{ $post.Threadid }}">{{ $post.ThreadName }}</a> {{ $post.PostDate.Format "Jan 02 2006 15:04:05" }}
                     </div>
                 </div>
-                
             {{ end }}
         {{ end }}
     </div>

@@ -20,7 +20,7 @@
                 <div class="threadbody">
                     <div class="user">
                         <img class="pfp" src="{{ $thread.ProfilePicture }}" />
-                        {{ $thread.Username }}
+                        <a href="/users/{{ $thread.UserId }}">{{ $thread.Username }}</a>
                     </div>
                     <div class="content">
                         <div id="threadpost">
@@ -62,7 +62,7 @@
                 <div class="threadbody">
                     <div class="user">
                         <img class="pfp" src="{{ $post.ProfilePicture }}" />
-                        {{ $post.Username }}
+                        <a href="/users/{{ $post.UserId }}">{{ $post.Username }}</a>
                     </div>
                     <div class="content">
                         <div id="post{{ $post.PostId }}">
@@ -103,7 +103,7 @@
                 <div class="threadbody">
                     <div class="user">
                         <img class="pfp" src="{{ $post.ProfilePicture }}" />
-                        {{ $post.Username }}
+                        <a href="/users/{{ $post.UserId }}">{{ $post.Username }}</a>
                     </div>
                     <div class="content">
                         <div id="post{{ $post.PostId }}">
