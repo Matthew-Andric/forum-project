@@ -8,60 +8,117 @@
     
     <head>
         <script src="/static/thread.js"></script>
-        <link rel="stylesheet" href="/static/index.css">
-        <link rel="stylesheet" href="/static/board.css">
+        <link rel="stylesheet" href="/static/thread.css">
         <title>Forum - {{ $thread.ThreadName }}</title>
     </head>
 
     <div class="spacer"></div>
 
     <div class="boardheader">
-        {{ if eq $user.Userid $thread.UserId }}
-            <button onclick="editOP()">Edit</button>
-            <div id="threadpost">
-                <h4>{{ $thread.ThreadName }}</h4>
-                <p>{{ $thread.Username }} {{ $thread.CreateDate.Format "Jan 02 2006 15:04:05" }}</p>
-                <p>{{ $thread.ThreadText }}</p>
+            <div class="threadpost">
+                <h3 class="threadtitle">{{ $thread.ThreadName }}</h3>
+                <div class="threadbody">
+                    <div class="user">
+                        <img class="pfp" src="/{{ $thread.ProfilePicture }}" />
+                        {{ $thread.Username }}
+                    </div>
+                    <div class="content">
+                        <div id="threadpost">
+                            <div class="posttop">
+                                <div class="timestamp">{{ $thread.CreateDate.Format "Jan 02 2006 15:04:05" }}</div>
+                                {{ if .user }}
+                                    {{ if eq $user.Userid $thread.UserId }}
+                                        <div class="buttons"><button onclick="editOP()">Edit</button></div>
+                                    {{ end }}
+                                {{ end }}
+                            </div>
+                            <div class="post">{{ $thread.ThreadText }}</div>
+                        </div>
+
+                        {{ if .user }}
+                            {{ if eq $user.Userid $thread.UserId }}
+                                <div id="editthreadpost" hidden>
+                                    <div class="posttop">
+                                        <div class="buttons"><button onclick="editOP()">Cancel</button></div>
+                                    </div>
+                                    <form class="post" action="/edit/thread/{{ $thread.Threadid }}" method="POST">
+                                        <label for="threadtitle">Title:</label>
+                                        <input type="text" name="threadtitle" id="threadtitle" value="{{ $thread.ThreadName }}"> <br>
+                                        <label for="threadpost">Post:</label>
+                                        <textarea name="threadpost" id="threadpost">{{ $thread.ThreadText }}</textarea> <br>
+                                        <button type="submit">Submit</button>
+                                    </form>
+                                </div>
+                            {{ end }}
+                        {{ end }}
+                    </div>
+                </div>
             </div>
-            <div id="editthreadpost" hidden>
-                <form action="/edit/thread/{{ $thread.Threadid }}" method="POST">
-                    <input type="text" name="threadtitle" id="threadtitle" value="{{ $thread.ThreadName }}">
-                    <textarea name="threadpost" id="threadpost">{{ $thread.ThreadText }}</textarea>
-                    <button type="submit">Edit</button>
-                </form>
-            </div>
-        {{ else }}
-            <h4>{{ $thread.ThreadName }}</h4>
-            <p>{{ $thread.Username }} {{ $thread.CreateDate.Format "Jan 02 2006 15:04:05" }}</p>
-            <p>{{ $thread.ThreadText }}</p>
-        {{ end }}
     </div>
 
-    {{ range $post := $posts }} 
-        <div>
-            <div id="post{{ $post.PostId }}">
-                <p>{{ $post.Username }} {{ $post.PostDate.Format "Jan 02 2006 15:04:05" }}</p>
-                <p>{{ $post.PostText }}</p>
-                {{ if eq $user.Userid $post.UserId }}
-                    <form action="/delete/post/{{ $post.PostId }}" method="POST">
-                        <button type="submit">Delete</button>
-                    </form>
-                    <button onclick="editPost({{ $post.PostId }})">Edit</button>
-                {{ end }}
+    {{ if .user }}
+        {{ range $post := $posts }} 
+            <div class="threadpost">
+                <div class="threadbody">
+                    <div class="user">
+                        <img class="pfp" src="/{{ $post.ProfilePicture }}" />
+                        {{ $post.Username }}
+                    </div>
+                    <div class="content">
+                        <div id="post{{ $post.PostId }}">
+                            <div class="posttop">
+                                <div class="timestamp">{{ $post.PostDate.Format "Jan 02 2006 15:04:05" }}</div>
+                                {{ if eq $user.Userid $post.UserId }}
+                                    <div class="buttons">
+                                        <div>
+                                            <form action="/delete/post/{{ $post.PostId }}" method="POST">
+                                                <button type="submit">Delete</button>
+                                            </form>
+                                        </div>
+                                        <button onclick="editPost({{ $post.PostId }})">Edit</button>
+                                    </div>
+                                {{ end }}
+                            </div>
+                            <div class="post">{{ $post.PostText }}</div>
+                        </div>
+
+                        {{ if eq $user.Userid $post.UserId }}
+                            <div id="edit{{ $post.PostId }}" hidden>
+                                <div class="posttop">
+                                    <div class="buttons"><button onclick="editPost({{ $post.PostId }})">Edit</button></div>
+                                </div>
+                                <form action="/edit/post/{{ $post.PostId }}" method="POST">
+                                    <textarea name="editreply" id="editreply"></textarea>
+                                    <button type="submit">Submit</button>
+                                </form>
+                            </div>
+                        {{ end }}
+                    </div>
+                </div>                
             </div>
-            {{ if eq $user.Userid $post.UserId }}
-                <div id="edit{{ $post.PostId }}" hidden>
-                    <form action="/edit/post/{{ $post.PostId }}" method="POST">
-                        <textarea name="editreply" id="editreply"></textarea>
-                        <button type="submit">Submit</button>
-                    </form>
-                    <button onclick="editPost({{ $post.PostId }})">Edit</button>
-                </div>
-            {{ end }}
-        </div>
+        {{ end }}
+    {{ else }}
+        {{ range $post := $posts }} 
+            <div class="threadpost">
+                <div class="threadbody">
+                    <div class="user">
+                        <img class="pfp" src="/{{ $post.ProfilePicture }}" />
+                        {{ $post.Username }}
+                    </div>
+                    <div class="content">
+                        <div id="post{{ $post.PostId }}">
+                            <div class="posttop">
+                                <div class="timestamp">{{ $post.PostDate.Format "Jan 02 2006 15:04:05" }}</div>
+                            </div>
+                            <div class="post">{{ $post.PostText }}</div>
+                        </div>
+                    </div>
+                </div>                
+            </div>
+        {{ end }}
     {{ end }}
 
-    <div>
+    <div class="reply">
         {{ if .user }}
             {{ template "replyform" }}
         {{ end }}

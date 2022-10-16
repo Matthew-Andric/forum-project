@@ -146,10 +146,10 @@ func GetUserPosts(id string) []ProfilePost {
 
 func GetThreadDetails(id string) Thread {
 	var thread Thread
-	sqlStatement := `SELECT threadid, threadname, threads.userid, username, threadtext, createdate, editdate FROM threads JOIN users ON users.userid = threads.userid WHERE threadid=$1`
+	sqlStatement := `SELECT threadid, threadname, threads.userid, username, threadtext, createdate, editdate, profilepicture FROM threads JOIN users ON users.userid = threads.userid WHERE threadid=$1`
 
 	row := db.QueryRow(sqlStatement, id)
-	switch err := row.Scan(&thread.Threadid, &thread.ThreadName, &thread.UserId, &thread.Username, &thread.ThreadText, &thread.CreateDate, &thread.EditDate); err {
+	switch err := row.Scan(&thread.Threadid, &thread.ThreadName, &thread.UserId, &thread.Username, &thread.ThreadText, &thread.CreateDate, &thread.EditDate, &thread.ProfilePicture); err {
 	case sql.ErrNoRows:
 		fmt.Println("Thread not found")
 	case nil:
@@ -163,7 +163,7 @@ func GetThreadDetails(id string) Thread {
 
 func GetThreadPosts(id string) []ThreadPost {
 	var posts []ThreadPost
-	sqlStatement := `SELECT postid, posts.userid, username, posttext, postdate, editdate FROM posts JOIN users ON posts.userid = users.userid WHERE threadid=$1 ORDER BY postdate;`
+	sqlStatement := `SELECT postid, posts.userid, username, posttext, postdate, editdate, profilepicture FROM posts JOIN users ON posts.userid = users.userid WHERE threadid=$1 ORDER BY postdate;`
 
 	rows, err := db.Query(sqlStatement, id)
 	if err != nil {
@@ -174,7 +174,7 @@ func GetThreadPosts(id string) []ThreadPost {
 	for rows.Next() {
 		var post ThreadPost
 
-		err = rows.Scan(&post.PostId, &post.UserId, &post.Username, &post.PostText, &post.PostDate, &post.EditDate)
+		err = rows.Scan(&post.PostId, &post.UserId, &post.Username, &post.PostText, &post.PostDate, &post.EditDate, &post.ProfilePicture)
 		if err != nil {
 			panic(err)
 		}

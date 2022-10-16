@@ -75,20 +75,22 @@ type ProfilePost struct {
 }
 
 type ThreadPost struct {
-	PostId   int
-	UserId   int
-	Username string
-	PostText string
-	PostDate time.Time
-	EditDate *time.Time
+	PostId         int
+	UserId         int
+	Username       string
+	PostText       string
+	PostDate       time.Time
+	EditDate       *time.Time
+	ProfilePicture string
 }
 
 type Thread struct {
-	Threadid   int
-	ThreadName string
-	UserId     int
-	Username   string
-	ThreadText string
-	CreateDate time.Time
-	EditDate   *time.Time
+	Threadid       int
+	ThreadName     string
+	UserId         int
+	Username       string
+	ThreadText     string
+	CreateDate     time.Time
+	EditDate       *time.Time
+	ProfilePicture string
 }

@@ -1,0 +1,68 @@
+.threadpost {
+    width: 80%;
+    height: auto;
+    margin: auto;
+    border: 0.1em solid black;
+}
+
+.threadtitle {
+    background-color: rgb(245, 161, 4);
+    padding: 0.3em;
+    margin: 0;
+}
+
+.threadbody {
+    display: flex;
+    flex-direction: row;
+}
+
+.user {
+    width: 8em;
+    text-align: center;
+    border-right: .1em solid black;
+    padding-top: .2em;
+}
+
+.posttop {
+    display: flex;
+    padding-top: .2em;
+    flex-direction: row;
+    margin: 2px;
+}
+
+.post {
+    padding-top: .3em;
+    padding-bottom: .3em;
+}
+
+.content {
+    padding-left: .4em;
+    width: 100%;
+}
+
+.buttons {
+    display: flex;
+    float: right;
+    margin-right: none;
+    margin-left: auto;
+    padding-right: .2em;
+    flex-direction: row;
+    height: 1.32em;
+}
+
+.timestamp {
+    font-size: smaller;
+    float: left;
+    margin-left: none;
+    color: rgb(92, 89, 89);
+}
+
+.pfp {
+    width: 90%;
+    object-fit: cover;
+}
+
+.reply {
+    width: 80%;
+    margin: auto;
+}
