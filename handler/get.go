@@ -147,7 +147,7 @@ func GetUserSettings() gin.HandlerFunc {
 			return
 		}
 
-		c.HTML(http.StatusFound, "usersettings", map[string]interface{}{"user": user})
+		c.HTML(http.StatusFound, "usersettings", map[string]interface{}{"user": user, "result": c.Query("result")})
 	}
 
 	return gin.HandlerFunc(fn)

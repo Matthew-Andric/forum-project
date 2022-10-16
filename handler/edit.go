@@ -179,14 +179,14 @@ func UpdatePasswordHandler() gin.HandlerFunc {
 		currentPassword := c.PostForm("currentpassword")
 		_, ok := database.ValidateLogIn(user.Username, currentPassword)
 		if !ok {
-			location := url.URL{Path: "/usersettings"}
+			location := url.URL{Path: "/usersettings", RawQuery: "result=Current password incorrect"}
 			c.Redirect(http.StatusFound, location.RequestURI())
 			return
 		}
 
 		newPassword := c.PostForm("newpassword")
 		if newPassword != c.PostForm("newpasswordconfirm") {
-			location := url.URL{Path: "/usersettings"}
+			location := url.URL{Path: "/usersettings", RawQuery: "result=Passwords dont match"}
 			c.Redirect(http.StatusFound, location.RequestURI())
 			return
 		}
@@ -196,7 +196,7 @@ func UpdatePasswordHandler() gin.HandlerFunc {
 			return
 		}
 
-		location := url.URL{Path: "/usersettings"}
+		location := url.URL{Path: "/usersettings", RawQuery: "result=Password successfully updated"}
 		c.Redirect(http.StatusFound, location.RequestURI())
 	}
 
