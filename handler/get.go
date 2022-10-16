@@ -39,10 +39,11 @@ func GetBoardHandler() gin.HandlerFunc {
 
 func GetUserHandler() gin.HandlerFunc {
 	fn := func(c *gin.Context) {
+		user := database.ValidateSession(c)
 		userid := c.Param("id")
-		User := database.GetUserDetails(userid)
-		UserPosts := database.GetUserPosts(userid)
-		c.HTML(http.StatusOK, "userprofile", map[string]interface{}{"user": User, "posts": UserPosts})
+		profileUser := database.GetUserDetails(userid)
+		userPosts := database.GetUserPosts(userid)
+		c.HTML(http.StatusOK, "userprofile", map[string]interface{}{"user": user, "profileuser": profileUser, "posts": userPosts})
 	}
 
 	return gin.HandlerFunc(fn)
@@ -52,9 +53,9 @@ func GetThreadHandler() gin.HandlerFunc {
 	fn := func(c *gin.Context) {
 		user := database.ValidateSession(c)
 		threadid := c.Param("id")
-		Thread := database.GetThreadDetails(threadid)
-		Posts := database.GetThreadPosts(threadid)
-		c.HTML(http.StatusOK, "thread", map[string]interface{}{"thread": Thread, "posts": Posts, "user": user})
+		thread := database.GetThreadDetails(threadid)
+		posts := database.GetThreadPosts(threadid)
+		c.HTML(http.StatusOK, "thread", map[string]interface{}{"thread": thread, "posts": posts, "user": user})
 	}
 
 	return gin.HandlerFunc(fn)
