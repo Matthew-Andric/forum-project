@@ -246,7 +246,7 @@ func UploadImageHandler() gin.HandlerFunc {
 			return
 		}
 
-		filePath := "/static/media/profile/" + uuid.New().String() + filepath.Ext(file.Filename)
+		filePath := "static/media/profile/" + uuid.New().String() + filepath.Ext(file.Filename)
 
 		if err := c.SaveUploadedFile(file, filePath); err != nil {
 			c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"message": "Error saving file"})
@@ -267,13 +267,13 @@ func UploadImageHandler() gin.HandlerFunc {
 			return
 		}
 
-		if !database.UpdateProfilePicture(user, filePath) {
+		if !database.UpdateProfilePicture(user, "/"+filePath) {
 			c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"message": "database error"})
 			os.Remove(filePath)
 			return
 		}
 
-		os.Remove(user.ProfilePicture)
+		os.Remove(user.ProfilePicture[1:])
 		location := url.URL{Path: "/"}
 		c.Redirect(http.StatusFound, location.RequestURI())
 	}

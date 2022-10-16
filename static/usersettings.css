@@ -1,0 +1,24 @@
+.profile {
+    display: flex;
+    width: 60%;
+    margin: auto;
+    padding-top: .3em;
+}
+
+.sprofile {
+    display: flex;
+    flex-direction: column;
+}
+
+.pfform {
+    width: 60%;
+    margin: auto;
+}
+
+form > button {
+    margin-top: .3em;
+}
+
+img {
+    width: 7em;
+}
