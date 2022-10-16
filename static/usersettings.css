@@ -22,3 +22,20 @@ form > button {
 img {
     width: 7em;
 }
+
+.posts {
+    display: flex;
+    flex-direction: column;
+    width: 60%;
+    margin: auto;
+}
+
+.post {
+    border: .1em solid black;
+    margin-bottom: .2em;
+    padding: .2em;
+}
+
+.postbody {
+    padding-bottom: .3em;
+}

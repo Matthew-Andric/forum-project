@@ -3,7 +3,7 @@
     {{ $user := . }}
 
     <div class="uinfo">
-        <p class="navlink">{{$user.Username}}</p>
+        <a class="navlink" href="/users/{{ $user.Userid }}">{{$user.Username}}</a>
         <a class="navlink" href="/usersettings">Profile & Settings</a>
         <a class="navlink" href="/logout">Log Out</a>
     </div>

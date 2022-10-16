@@ -3,20 +3,35 @@
     {{ $user := .user }}
     {{ $posts := .posts }}
 
+    <head>
+        <link rel="stylesheet" href="/static/usersettings.css">
+    </head>
+
     {{ template "navbar" . }}
 
-    <div>
-        <h4>{{ $user.Username }}</h4>
-        <p>Account Created: {{ $user.CreationDate.Format "Jan 02 2006" }} </p> 
+    <div class="profile">
+        <img src="{{ $user.ProfilePicture}}" />
+        <div class="sprofile">
+            <h4>{{ $user.Username }}</h4>
+            <div>Account Created: {{ $user.CreationDate.Format "Jan 02 2006" }} </div> 
+        </div>
+        
     </div>
 
-    </br>
-
-    <h4>Posts</h4>
-    {{ range $post := $posts }}
-        <a href="/thread/{{ $post.Threadid }}">{{ $post.ThreadName }} </a>
-        <p>{{ $post.PostText }}</p>
-        <p>Posted: {{ $post.PostDate.Format "Jan 02 2006 15:04:05" }} </p> </br> </br>
-    {{ end }}
+    <div class="posts">
+        <h4>Posts</h4>
+        {{ if .posts }}
+            {{ range $post := $posts }}
+                <div class="post">
+                    <div class="postbody">{{ $post.PostText }}</div>
+                    <div>
+                        Posted in: <a href="/thread/{{ $post.Threadid }}">{{ $post.ThreadName }}</a> {{ $post.PostDate.Format "Jan 02 2006 15:04:05" }}
+                    </div>
+                </div>
+                
+            {{ end }}
+        {{ end }}
+    </div>
+    
 
 {{ end }}
