@@ -19,7 +19,7 @@
                 <h3 class="threadtitle">{{ $thread.ThreadName }}</h3>
                 <div class="threadbody">
                     <div class="user">
-                        <img class="pfp" src="/{{ $thread.ProfilePicture }}" />
+                        <img class="pfp" src="{{ $thread.ProfilePicture }}" />
                         {{ $thread.Username }}
                     </div>
                     <div class="content">
@@ -61,7 +61,7 @@
             <div class="threadpost">
                 <div class="threadbody">
                     <div class="user">
-                        <img class="pfp" src="/{{ $post.ProfilePicture }}" />
+                        <img class="pfp" src="{{ $post.ProfilePicture }}" />
                         {{ $post.Username }}
                     </div>
                     <div class="content">
@@ -102,7 +102,7 @@
             <div class="threadpost">
                 <div class="threadbody">
                     <div class="user">
-                        <img class="pfp" src="/{{ $post.ProfilePicture }}" />
+                        <img class="pfp" src="{{ $post.ProfilePicture }}" />
                         {{ $post.Username }}
                     </div>
                     <div class="content">

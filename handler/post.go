@@ -246,7 +246,7 @@ func UploadImageHandler() gin.HandlerFunc {
 			return
 		}
 
-		filePath := "static/media/profile/" + uuid.New().String() + filepath.Ext(file.Filename)
+		filePath := "/static/media/profile/" + uuid.New().String() + filepath.Ext(file.Filename)
 
 		if err := c.SaveUploadedFile(file, filePath); err != nil {
 			c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"message": "Error saving file"})
