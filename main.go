@@ -15,7 +15,9 @@ func main() {
 	devMode := flag.Bool("dev", false, "Enables developer mode, this will disable security settings for easy use during testing")
 	database.StartDB()
 
+	gin.SetMode(gin.ReleaseMode)
 	r := gin.Default()
+	r.SetTrustedProxies(nil)
 	conf := secure.DefaultConfig()
 	if !*devMode {
 		r.Use(secure.New(conf))
