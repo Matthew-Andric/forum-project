@@ -24,7 +24,6 @@ func PostLoginHandler() gin.HandlerFunc {
 	fn := func(c *gin.Context) {
 		username := c.PostForm("username")
 		password := c.PostForm("password")
-		fmt.Println("Username:", username, "Password:", password)
 
 		id, ok := database.ValidateLogIn(username, password)
 		if !ok {

@@ -12,7 +12,7 @@ import (
 )
 
 func main() {
-	devMode := flag.Bool("dev", true, "Enables developer mode, this will disable security settings for easy use during testing")
+	devMode := flag.Bool("dev", false, "Enables developer mode, this will disable security settings for easy use during testing")
 	database.StartDB()
 
 	r := gin.Default()
