@@ -39,7 +39,6 @@ func PostLoginHandler() gin.HandlerFunc {
 			c.Redirect(http.StatusFound, location.RequestURI())
 		}
 
-		fmt.Println("Encoded string:", encoded)
 		cookie := &http.Cookie{
 			Name:  "session",
 			Value: encoded,
